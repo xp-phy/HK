@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>文件管理平台App</title>
     <style>
         :root {
@@ -17,17 +17,23 @@
             --footer-bg-light: rgba(255, 255, 255, 0.1);
             --footer-bg-dark: rgba(0, 0, 0, 0.3);
         }
+        html {
+            height: 100%;
+            width: 100%;
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: 100%;
+            width: 100%;
             background: var(--bg-gradient-light);
             color: var(--text-color-light);
             font-size: 18px;
             transition: background 0.3s, color 0.3s;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
         body.dark-mode {
             background: var(--bg-gradient-dark);
@@ -192,6 +198,7 @@
             
             header {
                 padding: 10px;
+                padding-top: max(10px, env(safe-area-inset-top));
             }
             
             .header-content {
