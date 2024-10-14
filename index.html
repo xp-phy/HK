@@ -184,6 +184,58 @@
         body.dark-mode .theme-option:hover {
             background-color: #444;
         }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+            
+            header {
+                padding: 10px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+            }
+            
+            img {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+                text-align: center;
+            }
+            
+            main {
+                padding: 15px;
+            }
+            
+            p {
+                font-size: 1.2em;
+                margin-bottom: 30px;
+            }
+            
+            .download-button {
+                padding: 12px 24px;
+                font-size: 1em;
+                align-self: center;
+            }
+            
+            footer {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .footer-links {
+                margin-bottom: 10px;
+            }
+            
+            .theme-toggle-container {
+                margin-top: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -273,7 +325,7 @@
 
         // 在页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', function() {
-            // 为��题切换按钮添加点击事件监听器
+            // 为主题切换按钮添加点击事件监听器
             document.querySelector('.theme-toggle-button').addEventListener('click', toggleThemeOptions);
 
             // 为每个主题选项添加点击事件监听器
@@ -303,7 +355,15 @@
         // 移除这里的事件监听器，因为我们已经在 DOMContentLoaded 事件中添加了
         // document.querySelector('.theme-toggle-button').addEventListener('click', toggleThemeOptions);
 
-        // ... adjustThemeOptionsWidth 函数保持不变 ...
+        function adjustThemeOptionsWidth() {
+            const themeToggleButton = document.querySelector('.theme-toggle-button');
+            const themeOptions = document.getElementById('themeOptions');
+            const buttonWidth = themeToggleButton.offsetWidth;
+            themeOptions.style.minWidth = `${buttonWidth}px`;
+        }
+
+        // 在窗口大小改变时重新调整主题选项的宽度
+        window.addEventListener('resize', adjustThemeOptionsWidth);
 
         // 移除这个 load 事件监听器，因为我们已经在 DOMContentLoaded 事件中处理了所有初始化
         // window.addEventListener('load', () => { ... });
