@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#3498db" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)">
     <title>文件管理平台App</title>
+    <!-- 添加 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         :root {
+            --bg-color-light: #3498db;
+            --bg-color-dark: #1a1a2e;
             --bg-gradient-light: linear-gradient(135deg, #3498db, #8e44ad);
             --bg-gradient-dark: linear-gradient(135deg, #1a1a2e, #16213e);
             --text-color-light: white;
@@ -29,24 +35,34 @@
             flex-direction: column;
             min-height: 100%;
             width: 100%;
-            background: var(--bg-gradient-light);
+            background-color: var(--bg-color-light);
+            background-image: var(--bg-gradient-light);
+            background-attachment: fixed;
             color: var(--text-color-light);
-            font-size: 18px;
+            font-size: 16px; /* 将基础字体大小从 18px 减小到 16px */
             transition: background 0.3s, color 0.3s;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
         body.dark-mode {
-            background: var(--bg-gradient-dark);
+            background-color: var(--bg-color-dark);
+            background-image: var(--bg-gradient-dark);
             color: var(--text-color-dark);
+        }
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            width: 100%;
+            box-sizing: border-box;
         }
         header {
             padding: 20px;
-            text-align: center;
+            text-align: left;
         }
         .header-content {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
         }
         main {
             flex: 1;
@@ -54,8 +70,6 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            max-width: 1200px;
-            margin: 0 auto;
         }
         footer {
             background-color: var(--footer-bg-light);
@@ -64,6 +78,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
         body.dark-mode footer {
             background-color: var(--footer-bg-dark);
@@ -72,34 +87,129 @@
             max-width: 100px;
             margin-right: 20px;
             border-radius: 20px;
+            flex-shrink: 0; /* 防止图片被压缩 */
         }
         h1 {
             margin: 0;
-            font-size: 2.5em;
+            font-size: 2.2em; /* 从 2.5em 减小到 2.2em */
+            line-height: 1.2;
+            max-height: 2.4em; /* 最多显示两行 */
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
         p {
-            max-width: 600px;
-            margin: 0 0 40px;
-            font-size: 1.4em;
+            margin: 0 0 30px; /* 从 40px 减小到 30px */
+            font-size: 1.2em; /* 从 1.4em 减小到 1.2em */
             line-height: 1.5;
             text-align: left;
         }
         .footer-links a {
             color: inherit;
-            text-decoration: none;
+            text-decoration: underline; /* 添加下划线 */
             margin: 0 10px;
+            transition: opacity 0.3s; /* 添加过渡效果 */
+        }
+
+        .footer-links a:hover {
+            opacity: 0.8; /* 鼠标悬停时稍微降低不透明度 */
         }
         .download-button {
-            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between; /* 修改为 space-between */
             background-color: var(--button-bg-light);
             color: var(--button-color-light);
-            padding: 15px 30px;
+            padding: 12px 18px; /* 从 15px 20px 减小到 12px 18px */
             border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
-            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-            font-size: 1.2em;
-            align-self: flex-end;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s;
+            font-size: 1.1em; /* 从 1.2em 减小到 1.1em */
+            align-self: flex-start;
+            min-width: 200px; /* 添加最小宽度 */
+            z-index: 1;
+        }
+
+        .download-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(52, 152, 219, 0.1); /* 使用主题色，降低不透明度 */
+            z-index: -2;
+        }
+
+        .download-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(52, 152, 219, 0.4), /* 使用主题色，增加不透明度 */
+                transparent
+            );
+            animation: shine 4s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        .download-button-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .download-button .button-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .download-button .button-content i {
+            margin-right: 10px;
+            animation: bounce 0.5s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-4px);
+            }
+        }
+
+        .download-button i {
+            margin-right: 10px;
+        }
+
+        .download-button .apple-logo {
+            font-size: 1.5em; /* 调整 Apple logo 大小 */
+            margin-left: 10px; /* 添加左边距 */
+        }
+
+        .download-button:hover {
+            transform: scale(1.05);
         }
         body.dark-mode .download-button {
             background-color: #f1c40f; /* 明亮的黄色 */
@@ -112,7 +222,7 @@
             box-shadow: 0 0 20px rgba(241, 196, 15, 0.7); /* 增强发光效果 */
         }
         body.dark-mode .download-button:hover {
-            background-color: #f39c12; /* 稍深的黄色 */
+            background-color: #f39c12; /* 稍深的黄 */
             box-shadow: 0 0 20px rgba(241, 196, 15, 0.7); /* 增强发光效果 */
         }
         .theme-toggle {
@@ -144,6 +254,12 @@
             border-radius: 5px;
             transition: background-color 0.3s;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-toggle-button span {
+            margin-left: 5px;
         }
 
         .theme-toggle-button:hover {
@@ -191,9 +307,34 @@
             background-color: #444;
         }
 
+        @supports (-webkit-touch-callout: none) {
+            .content-wrapper {
+                /* 针 iOS Safari 的额外 padding */
+                padding-top: max(20px, env(safe-area-inset-top));
+                padding-bottom: max(20px, env(safe-area-inset-bottom));
+            }
+        }
+
+        @-moz-document url-prefix() {
+            /* Firefox 特定样式 */
+            body {
+                min-height: 100vh;
+            }
+        }
+
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+            /* Chrome 和 Safari 特定样式 */
+            body {
+                min-height: -webkit-fill-available;
+            }
+            html {
+                height: -webkit-fill-available;
+            }
+        }
+
         @media (max-width: 768px) {
             body {
-                font-size: 16px;
+                font-size: 14px; /* 从 16px 减小到 14px */
             }
             
             header {
@@ -203,6 +344,7 @@
             
             .header-content {
                 flex-direction: column;
+                align-items: center;
             }
             
             img {
@@ -211,23 +353,30 @@
             }
             
             h1 {
-                font-size: 1.8em;
+                font-size: 1.6em; /* 从 1.8em 减小到 1.6em */
                 text-align: center;
             }
             
             main {
                 padding: 15px;
+                align-items: center; /* 在移动端保持居中对齐 */
             }
             
             p {
-                font-size: 1.2em;
-                margin-bottom: 30px;
+                font-size: 1.1em; /* 从 1.2em 减小到 1.1em */
+                margin-bottom: 25px; /* 从 30px 减小到 25px */
+                text-align: center; /* 在移动端保持居中对齐 */
+                align-self: center;
             }
             
             .download-button {
-                padding: 12px 24px;
-                font-size: 1em;
-                align-self: center;
+                padding: 10px 20px; /* 从 12px 24px 减小到 10px 20px */
+                font-size: 0.9em; /* 从 1em 减小到 0.9em */
+                align-self: center; /* 在移动端保持居中对齐 */
+            }
+            
+            .download-button i {
+                margin-right: 8px;
             }
             
             footer {
@@ -242,49 +391,393 @@
             .theme-toggle-container {
                 margin-top: 10px;
             }
+
+            .content-wrapper {
+                padding-left: max(15px, env(safe-area-inset-left));
+                padding-right: max(15px, env(safe-area-inset-right));
+            }
+
+            .download-button:hover {
+                transform: none;
+            }
+        }
+
+        .language-toggle-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-toggle-button {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+
+        .language-toggle-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .language-options {
+            display: none;
+            position: absolute;
+            right: 0;
+            bottom: 100%;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            z-index: 1000;
+            white-space: nowrap;
+            min-width: 100%;
+        }
+
+        .language-options.show {
+            display: block;
+        }
+
+        .language-option {
+            padding: 10px 20px;
+            cursor: pointer;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+
+        .language-option:hover {
+            background-color: #f0f0f0;
+        }
+
+        body.dark-mode .language-options {
+            background-color: #333;
+        }
+
+        body.dark-mode .language-option {
+            color: #fff;
+        }
+
+        body.dark-mode .language-option:hover {
+            background-color: #444;
+        }
+
+        /* 移除以下 RTL 相关的样式 */
+        /*
+        .rtl {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .rtl .header-content {
+            flex-direction: row-reverse;
+        }
+
+        .rtl img {
+            margin-right: 0;
+            margin-left: 20px;
+        }
+
+        .rtl .download-button {
+            flex-direction: row-reverse;
+        }
+
+        .rtl .download-button .button-content {
+            flex-direction: row-reverse;
+        }
+
+        .rtl .download-button .button-content i {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+
+        .rtl .download-button .apple-logo {
+            margin-left: 0;
+            margin-right: 10px;
+        }
+
+        .rtl .footer-links {
+            justify-content: flex-end;
+        }
+
+        .rtl .footer-controls {
+            flex-direction: row-reverse;
+        }
+
+        .rtl .theme-options,
+        .rtl .language-options {
+            right: auto;
+            left: 0;
+        }
+
+        .rtl h1 {
+            text-align: right;
+        }
+        */
+
+        .footer-links {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .footer-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-toggle-container,
+        .language-toggle-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            footer {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+
+            .footer-controls {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+
+        .rtl .download-button {
+            flex-direction: row-reverse;
+        }
+
+        .rtl .download-button i {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+
+        .rtl .download-button .apple-logo {
+            margin-left: 0;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .download-button {
+                min-width: 180px; /* 调整移动端的最小宽度 */
+            }
+        }
+
+        body.dark-mode .download-button::before {
+            background: rgba(241, 196, 15, 0.3); /* 增加背景不透明度 */
+        }
+
+        body.dark-mode .download-button::after {
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(241, 196, 15, 0.8), /* 增加光波不透明度 */
+                transparent
+            );
+        }
+
+        @keyframes shine-dark {
+            0% {
+                left: -200%;
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+            }
+            50% {
+                left: 200%;
+                opacity: 0;
+            }
+            100% {
+                left: 200%;
+                opacity: 0;
+            }
+        }
+
+        body.dark-mode .download-button::after {
+            animation: shine-dark 4s ease-in-out infinite; /* 调整动画时间 */
+            width: 300%; /* 增加宽度以使动画更明显 */
+        }
+
+        /* 添加悬停效果 */
+        body.dark-mode .download-button:hover::after {
+            animation: shine-dark 2s ease-in-out infinite; /* 悬停时加快动画速度 */
+        }
+
+        .rtl h1 {
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            /* ... 其他移动端样式保持不变 ... */
+
+            .rtl h1 {
+                text-align: center; /* 在移动端保持居中对齐 */
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <img src="ia_icon/app_icon.png" alt="App图标">
-            <h1>文件管理平台App</h1>
-        </div>
-    </header>
-    <main>
-        <p>一个管理您的手机并为您节省更多空间的文件管理平台。</p>
-        <a href="https://apps.apple.com/app/id6590633092" class="download-button">从App Store下载</a>
-    </main>
-    <footer>
-        <div class="footer-links">
-            <a href="./ia_subpage/privacy_policy.html">隐私政策</a>
-            <a href="./ia_subpage/user_agreement.html">服务条款</a>
-        </div>
-        <div class="theme-toggle-container">
-            <button class="theme-toggle-button">
-                <span id="currentTheme">自动</span>
-            </button>
-            <div class="theme-options" id="themeOptions">
-                <div class="theme-option" data-theme="auto">自动</div>
-                <div class="theme-option" data-theme="light">浅色</div>
-                <div class="theme-option" data-theme="dark">深色</div>
+    <div class="content-wrapper">
+        <header>
+            <div class="header-content">
+                <img src="ia_icon/app_icon.png" alt="App Icon">
+                <h1 data-i18n="title">文件管理平台App</h1>
             </div>
-        </div>
-    </footer>
+        </header>
+        <main>
+            <p data-i18n="description">一个管理您的手机并为您节省更空间的文件管理平台。</p>
+            <a href="https://apps.apple.com/app/id6590633092" class="download-button">
+                <div class="download-button-content">
+                    <div class="button-content">
+                        <i class="fas fa-download"></i>
+                        <span data-i18n="download">从App Store下载</span>
+                    </div>
+                    <i class="fab fa-apple apple-logo"></i>
+                </div>
+            </a>
+        </main>
+        <footer>
+            <div class="footer-links">
+                <a href="./ia_subpage/privacy_policy.html" data-i18n="privacy">隐私政策</a>
+                <a href="./ia_subpage/user_agreement.html" data-i18n="terms">服务条款</a>
+            </div>
+            <div class="footer-controls">
+                <div class="theme-toggle-container">
+                    <button class="theme-toggle-button">
+                        <span data-i18n="theme">主题</span>: <span id="currentTheme" data-i18n="auto">自动</span>
+                    </button>
+                    <div class="theme-options" id="themeOptions">
+                        <div class="theme-option" data-theme="auto" data-i18n="auto">自动</div>
+                        <div class="theme-option" data-theme="light" data-i18n="light">浅色</div>
+                        <div class="theme-option" data-theme="dark" data-i18n="dark">深色</div>
+                    </div>
+                </div>
+                <div class="language-toggle-container">
+                    <button class="language-toggle-button">
+                        <span id="currentLanguage">简体中文</span>
+                    </button>
+                    <div class="language-options" id="languageOptions">
+                        <div class="language-option" data-lang="en">English</div>
+                        <div class="language-option" data-lang="zh">简体中文</div>
+                        <div class="language-option" data-lang="fr">Français</div>
+                        <div class="language-option" data-lang="es">Español</div>
+                        <div class="language-option" data-lang="pt-BR">Português (Brasil)</div>
+                        <div class="language-option" data-lang="ar">العربية</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- 在 </body> 标签之前添加以下行 -->
+    <script src="localized_en.js"></script>
+    <script src="localized_zh.js"></script>
+    <script src="localized_fr.js"></script>
+    <script src="localized_es.js"></script>
+    <script src="localized_pt-BR.js"></script>
+    <script src="localized_ar.js"></script>
     <script>
+        let i18n = {};
+
+        function loadLocalizations(lang) {
+            switch(lang) {
+                case 'en':
+                    i18n = localized_en;
+                    break;
+                case 'zh':
+                    i18n = localized_zh;
+                    break;
+                case 'fr':
+                    i18n = localized_fr;
+                    break;
+                case 'es':
+                    i18n = localized_es;
+                    break;
+                case 'pt-BR':
+                    i18n = localized_pt_BR;
+                    break;
+                case 'ar':
+                    i18n = localized_ar;
+                    break;
+                default:
+                    i18n = localized_en; // 默认使用英语
+                    lang = 'en'; // 更新语言标识为英语
+            }
+            applyLanguage(lang);
+        }
+
+        function applyLanguage(lang) {
+            document.documentElement.lang = lang;
+            // 移除 RTL 相关的逻辑
+            // document.body.classList.toggle('rtl', lang === 'ar');
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.textContent = i18n[el.getAttribute('data-i18n')] || localized_en[el.getAttribute('data-i18n')];
+            });
+            document.getElementById('currentLanguage').textContent = document.querySelector(`.language-option[data-lang="${lang}"]`).textContent;
+            document.getElementById('languageOptions').classList.remove('show');
+
+            // 移除调整 Apple logo 位置的逻辑
+            /*
+            const downloadButton = document.querySelector('.download-button');
+            const appleLogo = downloadButton.querySelector('.apple-logo');
+            const buttonContent = downloadButton.querySelector('.button-content');
+            if (lang === 'ar') {
+                downloadButton.insertBefore(appleLogo, buttonContent);
+            } else {
+                downloadButton.appendChild(appleLogo);
+            }
+            */
+        }
+
+        function setLanguage(lang) {
+            localStorage.setItem('language', lang);
+            loadLocalizations(lang);
+        }
+
         function toggleThemeOptions(event) {
-            event.stopPropagation(); // 阻止事件冒泡
+            event.stopPropagation();
             const themeOptions = document.getElementById('themeOptions');
+            const languageOptions = document.getElementById('languageOptions');
+            
+            // 关闭语言选项菜单
+            languageOptions.classList.remove('show');
+            
             themeOptions.classList.toggle('show');
 
-            // 如果菜单被打开，添加点击监听器
             if (themeOptions.classList.contains('show')) {
                 setTimeout(() => {
                     document.addEventListener('click', closeThemeOptions);
                 }, 0);
             } else {
                 document.removeEventListener('click', closeThemeOptions);
+            }
+        }
+
+        function toggleLanguageOptions(event) {
+            event.stopPropagation();
+            const languageOptions = document.getElementById('languageOptions');
+            const themeOptions = document.getElementById('themeOptions');
+            
+            // 关闭主题选项菜单
+            themeOptions.classList.remove('show');
+            
+            languageOptions.classList.toggle('show');
+
+            if (languageOptions.classList.contains('show')) {
+                setTimeout(() => {
+                    document.addEventListener('click', closeLanguageOptions);
+                }, 0);
+            } else {
+                document.removeEventListener('click', closeLanguageOptions);
             }
         }
 
@@ -298,17 +791,65 @@
             }
         }
 
+        function closeLanguageOptions(event) {
+            const languageOptions = document.getElementById('languageOptions');
+            const languageToggleButton = document.querySelector('.language-toggle-button');
+
+            if (!languageOptions.contains(event.target) && event.target !== languageToggleButton) {
+                languageOptions.classList.remove('show');
+                document.removeEventListener('click', closeLanguageOptions);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLanguage = localStorage.getItem('language') || 'zh';
+            loadLocalizations(savedLanguage);
+
+            // 主题切换相关代码
+            const themeToggleButton = document.querySelector('.theme-toggle-button');
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', toggleThemeOptions);
+            }
+
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    setTheme(this.getAttribute('data-theme'));
+                });
+            });
+
+            // 语言切换相关代码
+            const languageToggleButton = document.querySelector('.language-toggle-button');
+            if (languageToggleButton) {
+                languageToggleButton.addEventListener('click', toggleLanguageOptions);
+            }
+
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    setLanguage(this.getAttribute('data-lang'));
+                });
+            });
+
+            // 初始化主题
+            const savedTheme = localStorage.getItem('theme') || 'auto';
+            setTheme(savedTheme);
+        });
+
         function setTheme(theme) {
+            const metaThemeColor = document.querySelector('meta[name="theme-color"]');
             if (theme === 'auto') {
                 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                     document.body.classList.add('dark-mode');
+                    metaThemeColor.setAttribute('content', '#1a1a2e');
                 } else {
                     document.body.classList.remove('dark-mode');
+                    metaThemeColor.setAttribute('content', '#3498db');
                 }
             } else if (theme === 'dark') {
                 document.body.classList.add('dark-mode');
+                metaThemeColor.setAttribute('content', '#1a1a2e');
             } else {
                 document.body.classList.remove('dark-mode');
+                metaThemeColor.setAttribute('content', '#3498db');
             }
             localStorage.setItem('theme', theme);
             document.getElementById('themeOptions').classList.remove('show');
@@ -317,63 +858,8 @@
 
         function updateThemeButtonText(theme) {
             const currentThemeSpan = document.getElementById('currentTheme');
-            switch (theme) {
-                case 'auto':
-                    currentThemeSpan.textContent = '自动';
-                    break;
-                case 'light':
-                    currentThemeSpan.textContent = '浅色';
-                    break;
-                case 'dark':
-                    currentThemeSpan.textContent = '深色';
-                    break;
-            }
+            currentThemeSpan.textContent = i18n[theme] || theme;
         }
-
-        // 在页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            // 为主题切换按钮添加点击事件监听器
-            document.querySelector('.theme-toggle-button').addEventListener('click', toggleThemeOptions);
-
-            // 为每个主题选项添加点击事件监听器
-            document.querySelectorAll('.theme-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    setTheme(this.getAttribute('data-theme'));
-                });
-            });
-
-            adjustThemeOptionsWidth();
-
-            // 初始化主题
-            const savedTheme = localStorage.getItem('theme') || 'auto';
-            setTheme(savedTheme);
-            updateThemeButtonText(savedTheme);
-
-            // 监听系统主题变化
-            if (window.matchMedia) {
-                window.matchMedia('(prefers-color-scheme: dark)').addListener(function(e) {
-                    if (localStorage.getItem('theme') === 'auto') {
-                        setTheme('auto');
-                    }
-                });
-            }
-        });
-
-        // 移除这里的事件监听器，因为我们已经在 DOMContentLoaded 事件中添加了
-        // document.querySelector('.theme-toggle-button').addEventListener('click', toggleThemeOptions);
-
-        function adjustThemeOptionsWidth() {
-            const themeToggleButton = document.querySelector('.theme-toggle-button');
-            const themeOptions = document.getElementById('themeOptions');
-            const buttonWidth = themeToggleButton.offsetWidth;
-            themeOptions.style.minWidth = `${buttonWidth}px`;
-        }
-
-        // 在窗口大小改变时重新调整主题选项的宽度
-        window.addEventListener('resize', adjustThemeOptionsWidth);
-
-        // 移除这个 load 事件监听器，因为我们已经在 DOMContentLoaded 事件中处理了所有初始化
-        // window.addEventListener('load', () => { ... });
     </script>
 </body>
 </html>
