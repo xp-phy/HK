@@ -717,25 +717,14 @@
 
         function applyLanguage(lang) {
             document.documentElement.lang = lang;
-            // 移除 RTL 相关的逻辑
-            // document.body.classList.toggle('rtl', lang === 'ar');
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 el.textContent = i18n[el.getAttribute('data-i18n')] || localized_en[el.getAttribute('data-i18n')];
             });
             document.getElementById('currentLanguage').textContent = document.querySelector(`.language-option[data-lang="${lang}"]`).textContent;
             document.getElementById('languageOptions').classList.remove('show');
 
-            // 移除调整 Apple logo 位置的逻辑
-            /*
-            const downloadButton = document.querySelector('.download-button');
-            const appleLogo = downloadButton.querySelector('.apple-logo');
-            const buttonContent = downloadButton.querySelector('.button-content');
-            if (lang === 'ar') {
-                downloadButton.insertBefore(appleLogo, buttonContent);
-            } else {
-                downloadButton.appendChild(appleLogo);
-            }
-            */
+            // 更新主题按钮文本
+            updateThemeButtonText(localStorage.getItem('theme') || 'auto');
         }
 
         function setLanguage(lang) {
@@ -858,7 +847,11 @@
 
         function updateThemeButtonText(theme) {
             const currentThemeSpan = document.getElementById('currentTheme');
-            currentThemeSpan.textContent = i18n[theme] || theme;
+            const themeText = i18n[theme] || localized_en[theme];
+            currentThemeSpan.textContent = themeText || theme;
+
+            const themeButtonText = document.querySelector('.theme-toggle-button [data-i18n="theme"]');
+            themeButtonText.textContent = i18n['theme'] || localized_en['theme'];
         }
     </script>
 </body>
