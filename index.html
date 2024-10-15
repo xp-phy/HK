@@ -826,24 +826,56 @@
         function setTheme(theme) {
             const metaThemeColor = document.querySelector('meta[name="theme-color"]');
             if (theme === 'auto') {
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    document.body.classList.add('dark-mode');
-                    metaThemeColor.setAttribute('content', '#1a1a2e');
-                } else {
-                    document.body.classList.remove('dark-mode');
-                    metaThemeColor.setAttribute('content', '#3498db');
-                }
+                applyAutoTheme();
             } else if (theme === 'dark') {
-                document.body.classList.add('dark-mode');
-                metaThemeColor.setAttribute('content', '#1a1a2e');
+                applyDarkTheme();
             } else {
-                document.body.classList.remove('dark-mode');
-                metaThemeColor.setAttribute('content', '#3498db');
+                applyLightTheme();
             }
             localStorage.setItem('theme', theme);
             document.getElementById('themeOptions').classList.remove('show');
             updateThemeButtonText(theme);
         }
+
+        function applyAutoTheme() {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                applyDarkTheme();
+            } else {
+                applyLightTheme();
+            }
+        }
+
+        function applyDarkTheme() {
+            document.body.classList.add('dark-mode');
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1a1a2e');
+        }
+
+        function applyLightTheme() {
+            document.body.classList.remove('dark-mode');
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#3498db');
+        }
+
+        // 添加这个新函数来处理系统主题变化
+        function handleSystemThemeChange(event) {
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme === 'auto') {
+                applyAutoTheme();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // ... 其他初始化代码保持不变 ...
+
+            // 添加系统主题变化的事件监听器
+            if (window.matchMedia) {
+                const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+                colorSchemeQuery.addListener(handleSystemThemeChange);
+            }
+
+            // 初始化主题
+            const savedTheme = localStorage.getItem('theme') || 'auto';
+            setTheme(savedTheme);
+        });
 
         function updateThemeButtonText(theme) {
             const currentThemeSpan = document.getElementById('currentTheme');
