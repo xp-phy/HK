@@ -249,7 +249,7 @@
         
         body.dark-mode .download-button {
             background-color: #f1c40f;
-            /* 明亮的黄色 */
+            /* 明亮���黄色 */
             color: #2c3e50;
             /* 深色文字 */
             box-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
@@ -421,7 +421,7 @@
                 font-size: 0.9em;
                 /* 从 1em 减小到 0.9em */
                 align-self: center;
-                /* 在移动端保持居中对齐 */
+                /* 在移动端保��中对齐 */
             }
             .download-button i {
                 margin-right: 8px;
@@ -680,14 +680,17 @@
         
         .privacy-statement {
             font-weight: bold;
-            color: #e74c3c;
+            color: var(--text-color-light);
+            /* 改为与普通文本相同的颜色 */
             font-size: 1.1em;
             margin-bottom: 20px;
             text-align: center;
             padding: 10px;
-            border: 2px solid #e74c3c;
+            border: 2px solid #d35400;
+            /* 边框颜色保持不变 */
             border-radius: 5px;
-            background-color: rgba(231, 76, 60, 0.1);
+            background-color: rgba(211, 84, 0, 0.1);
+            /* 背景色保持不变 */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -696,12 +699,22 @@
         .privacy-statement i {
             margin-right: 10px;
             font-size: 1.2em;
+            color: #d35400;
+            /* 图标颜色保持不变 */
         }
         
         body.dark-mode .privacy-statement {
-            color: #f39c12;
+            color: var(--text-color-dark);
+            /* 深色模式下使用深色主题的文本颜色 */
             border-color: #f39c12;
+            /* 深色模式边框颜色保持不变 */
             background-color: rgba(243, 156, 18, 0.1);
+            /* 深色模式背景色保持不变 */
+        }
+        
+        body.dark-mode .privacy-statement i {
+            color: #f39c12;
+            /* 深色模式图标颜色保持不变 */
         }
     </style>
 </head>
