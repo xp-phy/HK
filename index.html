@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#3498db" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)">
-    <title>文件管理平台App</title>
+    <title>IA Cleaner</title>
     <!-- 添加 Font Awesome 图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
@@ -40,7 +40,6 @@
             width: 100%;
             background-color: var(--bg-color-light);
             background-image: var(--bg-gradient-light);
-            background-attachment: fixed;
             color: var(--text-color-light);
             font-size: 16px;
             /* 将基础字体大小从 18px 减小到 16px */
@@ -678,19 +677,51 @@
                 background-position: 0% 50%;
             }
         }
+        
+        .privacy-statement {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 10px;
+            border: 2px solid #e74c3c;
+            border-radius: 5px;
+            background-color: rgba(231, 76, 60, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .privacy-statement i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        body.dark-mode .privacy-statement {
+            color: #f39c12;
+            border-color: #f39c12;
+            background-color: rgba(243, 156, 18, 0.1);
+        }
     </style>
 </head>
 
 <body>
+    <!-- 移除背景图 div -->
     <div class="content-wrapper">
         <header>
             <div class="header-content">
                 <img src="ia_icon/app_icon.png" alt="App Icon">
-                <h1 data-i18n="title">文件管理平台App</h1>
+                <h1 data-i18n="title">IA Cleaner</h1>
             </div>
         </header>
         <main>
             <p data-i18n="description">一个管理您的手机并为您节省更空间的文件管理平台。</p>
+            <p data-i18n="additional_description">更清晰的相册列表帮助您更轻松地浏览相册；更智能的分类让您方便地清理相册、不完整的联系人和过期的日历。</p>
+            <p class="privacy-statement">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span data-i18n="privacy_statement"></span>
+            </p>
             <a href="https://apps.apple.com/app/id6590633092" class="download-button">
                 <div class="download-button-content">
                     <div class="button-content">
@@ -705,6 +736,7 @@
             <div class="footer-links">
                 <a href="./ia_subpage/privacy_policy.html" data-i18n="privacy">隐私政策</a>
                 <a href="./ia_subpage/user_agreement.html" data-i18n="terms">服务条款</a>
+                <a href="mailto:xingqunfang0722@gmail.com" data-i18n="contact" target="_blank" rel="noopener noreferrer">联系我们</a>
             </div>
             <div class="footer-controls">
                 <div class="theme-toggle-container">
