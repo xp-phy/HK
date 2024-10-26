@@ -73,7 +73,14 @@
         .header-content {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+        }
+        
+        .header-content img {
+            margin-right: 20px;
+        }
+        
+        .header-content h1 {
+            margin: 0;
         }
         
         main {
@@ -249,7 +256,7 @@
         
         body.dark-mode .download-button {
             background-color: #f1c40f;
-            /* 明亮���黄色 */
+            /* 明亮色 */
             color: #2c3e50;
             /* 深色文字 */
             box-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
@@ -421,7 +428,7 @@
                 font-size: 0.9em;
                 /* 从 1em 减小到 0.9em */
                 align-self: center;
-                /* 在移动端保��中对齐 */
+                /* 在移动端保中对齐 */
             }
             .download-button i {
                 margin-right: 8px;
@@ -715,6 +722,35 @@
         body.dark-mode .privacy-statement i {
             color: #f39c12;
             /* 深色模式图标颜色保持不变 */
+        }
+        
+        .home-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .home-link:hover {
+            opacity: 0.8;
+        }
+        
+        .home-link img {
+            margin-right: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .home-link:hover img {
+            transform: scale(1.05);
+        }
+        
+        .home-link h1 {
+            transition: color 0.3s ease;
+        }
+        
+        .home-link:hover h1 {
+            color: #f39c12;
+            /* 或者其他您喜欢的悬停颜色 */
         }
     </style>
 </head>
